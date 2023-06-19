@@ -18,7 +18,7 @@ pros::Controller master(pros::E_CONTROLLER_MASTER);
 void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Acorn");
-
+	master.rumble("--");
 }
 
 /**
@@ -68,7 +68,7 @@ void autonomous() {}
 void opcontrol() {
 
 	while (true) {
-
+		void driveLoop();
 		pros::delay(10);
 	}
 }
