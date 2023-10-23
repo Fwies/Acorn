@@ -18,7 +18,7 @@ pros::Controller master(pros::E_CONTROLLER_MASTER);
 void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Acorn");
-	master.rumble("--");
+	master.rumble(".");
 }
 
 /**
@@ -50,7 +50,11 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+	lock();
+	autonInit();
+	testMove();
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -68,7 +72,10 @@ void autonomous() {}
 void opcontrol() {
 
 	while (true) {
-		void driveLoop();
-		pros::delay(10);
+		driveLoop();
+		flyLoop();
+		intakeLoop();
+		pros::delay(20);
 	}
 }
+

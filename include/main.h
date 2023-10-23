@@ -36,6 +36,11 @@
 
 #include "api.h"
 #include "SubsystemHeaders/drive.h"
+#include "EZ-Template/api.hpp"
+#include "SubsystemHeaders/Auton.h"
+#include "SubsystemHeaders/flyWheel.h"
+#include "SubsystemHeaders/intake.h"
+#include "okapi/api.hpp"
 
 /**
  * You should add more #includes here
@@ -63,7 +68,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-pros::Controller master;
+//extern pros::Controller master;
 void autonomous(void);
 void initialize(void);
 void disabled(void);

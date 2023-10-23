@@ -1,0 +1,3 @@
+
+void intakeLoop();
+void flipIntake();
