@@ -41,5 +41,5 @@ void autonInit(){
   	chassis.set_pid_constants(&chassis.swingPID, 7, 0, 0, 0); */
 }
 void testMove() {
-	
+	chassis->moveDistance(1_in);
 }
