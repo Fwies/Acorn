@@ -1,13 +1,13 @@
 #include "main.h"
 using namespace okapi;
 pros::ADIPotentiometer potentiometer (8);
-std::shared_ptr<ChassisController> chassis = ChassisControllerBuilder()
-	.withMotors({17,2, 13}, {14, 15, 16})
-	.withDimensions({okapi::AbstractMotor::gearset::blue, 600/360}, {{3.25_in, 10.5_in},imev5BlueTPR})
-	.build();
+/*std::shared_ptr<ChassisController> chassis = ChassisControllerBuilder()
+	.withMotors({17,19, 13}, {14, 15, 16})
+	.withDimensions({okapi::AbstractMotor::gearset::blue*0.1}, {{3.25_in, 10.5_in},imev5BlueTPR})
+	.build();*/
 	
 
-/*Drive SHhassis (
+/*Drive Chassis (
   // Left Chassis Ports (negative port will reverse it!)
   //   the first port is the sensored port (when trackers are not used!)
   {-17, -2, -13}
@@ -41,5 +41,4 @@ void autonInit(){
   	chassis.set_pid_constants(&chassis.swingPID, 7, 0, 0, 0); */
 }
 void testMove() {
-	chassis->moveDistance(1_in);
 }

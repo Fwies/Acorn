@@ -1,7 +1,11 @@
 #include "main.h"
-
+#include <chrono>
+#include <cmath>
+using namespace std;
+using namespace std::chrono;
+using namespace okapi;
 pros::Motor FLD (17, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
-pros::Motor MLD (2, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
+pros::Motor MLD (19, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
 pros::Motor BLD (13, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
 pros::Motor FRD (14, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_ROTATIONS);
 pros::Motor MRD (15, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_ROTATIONS);
@@ -10,6 +14,14 @@ pros::Motor BRD (16, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_ROTA
 pros::Motor_Group leftDrive ({FLD, MLD, BLD});
 pros::Motor_Group rightDrive ({FRD, MRD, BRD});
 
+std::shared_ptr<ChassisController> chassis = ChassisControllerBuilder()
+	.withMotors({17,19, 13}, {14, 15, 16})
+	.withDimensions({okapi::AbstractMotor::gearset::blue * 1.6667}, {{3.25_in, 10.5_in},imev5BlueTPR})
+    .withGains(
+        {0.003, 0.0, 0.000}, // Distance controller gains
+        {0.0025, 0.005, 0.000}  // Turn controller gains
+    )
+	.build();
 
 
 
@@ -45,4 +57,26 @@ void driveLoop() {
     leftDrive.move_velocity(4.72440944882 * master.get_analog(ANALOG_LEFT_Y));
     rightDrive.move_velocity(4.72440944882 * master.get_analog(ANALOG_RIGHT_Y));
 
+}
+void testMoveDrive() {
+    chassis->setMaxVelocity(300);
+    //chassis->moveDistance(3_ft);
+    //flipIntake();
+    chassis->turnAngle(40_deg);
+    chassis->moveDistance(2.5_ft);
+    chassis->turnAngle(-40_deg);
+    chassis->moveDistance(7_in);
+    pros::delay(250);
+    chassis->moveDistance(-9_in);
+    chassis->turnAngle(-90_deg);
+    chassis->moveDistance(3_ft);
+    chassis->turnAngle(90_deg);
+    flipIntake();
+    chassis->moveDistance(2.85_ft);
+    pros::delay(250);
+    chassis->setMaxVelocity(200);
+    chassis->turnAngle(90_deg);
+    chassis->setMaxVelocity(400);
+    chassis->moveDistance(1.8_ft);
+    flipIntake();
 }

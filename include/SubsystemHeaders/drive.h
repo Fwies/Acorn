@@ -2,3 +2,4 @@
 
 void driveLoop();
 void lock();
+void testMoveDrive();

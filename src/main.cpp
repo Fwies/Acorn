@@ -1,5 +1,6 @@
 #include "main.h"
 
+
 /**
  * A callback function for LLEMU's center button.
  *
@@ -51,9 +52,9 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	lock();
-	autonInit();
-	testMove();
+	//lock();
+	pros::lcd::set_text(2, "I was pressed!");
+	testMoveDrive();
 }
 
 /**

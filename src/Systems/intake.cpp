@@ -18,25 +18,30 @@ void intakeLoop(){
 
 
 
-    if(master.get_digital(DIGITAL_R1)){
+    if(master.get_digital_new_press(DIGITAL_R1)){
         if (pressed == 1) {
             pressed=0;
-            intake.move_voltage(0);
         }
         else{
-            pressed == 1;
-            intake.move_voltage(12000);
+            pressed = 1;
         }
     }
-    if(master.get_digital(DIGITAL_R2)){
+    if(master.get_digital_new_press(DIGITAL_R2)){
         if (pressed == -1) {
             pressed=0;
-            intake.move_voltage(0);
         }
         else{
-            pressed == -1;
-            intake.move_voltage(-12000);
+            pressed = -1;
         }
+    }
+    if (pressed == 1) {
+        intake.move_voltage(12000);
+    }
+    else if (pressed == -1) {
+        intake.move_voltage(-12000);
+    }
+    else {
+        intake.move_voltage(0);
     }
     /*
     if(master.get_digital(DIGITAL_R1)){
