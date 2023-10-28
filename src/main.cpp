@@ -54,12 +54,15 @@ void competition_initialize() {}
 void autonomous() {
 	//lock();
 	//pros::lcd::set_text(2, "I was pressed!");
-	if (potentiometer.get_angle()> 165){
+	if (potentiometer.get_angle()> 220){
 		testMoveDrive();
 	}
-	else{
+	else if (potentiometer.get_angle() > 110) {
 		pros::lcd::set_text(2, "op 2");
 		testTwo();
+	}
+	else {
+		testThree();
 	}
 }
 

@@ -92,4 +92,8 @@ void testMoveDrive() {
 }
 void testTwo(){
     // other auton
+} 
+void testThree() {
+    // skills
+    run();
 }
