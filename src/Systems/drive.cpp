@@ -33,10 +33,18 @@ int cubeCurve(int in) {
     int out = in*in*in*in;
     return out/433574.401667 * mult;
 }
-//bool holding = false;
+bool holding = false;
 void lock() {
-    leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_BRAKE);
-    rightDrive.set_brake_modes(pros::E_MOTOR_BRAKE_BRAKE);
+    if (holding == false){
+        leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_BRAKE);
+        rightDrive.set_brake_modes(pros::E_MOTOR_BRAKE_BRAKE);
+        holding = true;
+    }
+    else {
+        leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+        rightDrive.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+        holding = false;
+    }
 }
 void driveLoop() {
     /*
@@ -53,7 +61,9 @@ void driveLoop() {
         master.rumble(".");
     }
     */
-
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
+        lock();
+    }
     leftDrive.move_velocity(4.72440944882 * master.get_analog(ANALOG_LEFT_Y));
     rightDrive.move_velocity(4.72440944882 * master.get_analog(ANALOG_RIGHT_Y));
 
@@ -79,4 +89,7 @@ void testMoveDrive() {
     chassis->setMaxVelocity(400);
     chassis->moveDistance(1.8_ft);
     flipIntake();
+}
+void testTwo(){
+    // other auton
 }

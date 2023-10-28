@@ -1,6 +1,5 @@
 #include "main.h"
 using namespace okapi;
-pros::ADIPotentiometer potentiometer (8);
 /*std::shared_ptr<ChassisController> chassis = ChassisControllerBuilder()
 	.withMotors({17,19, 13}, {14, 15, 16})
 	.withDimensions({okapi::AbstractMotor::gearset::blue*0.1}, {{3.25_in, 10.5_in},imev5BlueTPR})
