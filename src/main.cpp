@@ -1,5 +1,5 @@
 #include "main.h"
-pros::ADIPotentiometer potentiometer (8);
+pros::ADIPotentiometer potentiometer (1);
 
 /**
  * A callback function for LLEMU's center button.
@@ -54,10 +54,10 @@ void competition_initialize() {}
 void autonomous() {
 	//lock();
 	//pros::lcd::set_text(2, "I was pressed!");
-	if (potentiometer.get_angle()> 220){
+	if (potentiometer.get_angle()> 166){
 		testMoveDrive();
 	}
-	else if (potentiometer.get_angle() > 110) {
+	else if (potentiometer.get_angle() > 83) {
 		pros::lcd::set_text(2, "op 2");
 		testTwo();
 	}
@@ -82,6 +82,10 @@ void autonomous() {
 void opcontrol() {
 
 	while (true) {
+
+
+
+		pros::lcd::set_text(1, to_string(potentiometer.get_angle()));
 		driveLoop();
 		flyLoop();
 		intakeLoop();

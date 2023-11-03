@@ -15,11 +15,12 @@ pros::Motor_Group leftDrive ({FLD, MLD, BLD});
 pros::Motor_Group rightDrive ({FRD, MRD, BRD});
 
 std::shared_ptr<ChassisController> chassis = ChassisControllerBuilder()
-	.withMotors({17,19, 13}, {14, 15, 16})
+	.withMotors({17, 19, 13}, {14, 15, 16})
 	.withDimensions({okapi::AbstractMotor::gearset::blue * 1.6667}, {{3.25_in, 10.5_in},imev5BlueTPR})
     .withGains(
-        {0.003, 0.0, 0.000}, // Distance controller gains
-        {0.0025, 0.005, 0.000}  // Turn controller gains
+        {0.003, 0.0, 0.000}, // Distance controller gains p 0.003
+        {0.003, 0.005, 0.00}  // Turn controller gains
+        //{0.005, 0.000, 0.00}
     )
 	.build();
 
@@ -46,7 +47,16 @@ void lock() {
         holding = false;
     }
 }
+std::uint32_t now = pros::millis();
 void driveLoop() {
+    now = pros::millis();
+    pros::lcd::set_text(2, to_string(FLD.get_raw_position(&now)));
+    pros::lcd::set_text(3, to_string(MLD.get_raw_position(&now)));
+    pros::lcd::set_text(4, to_string(BLD.get_raw_position(&now)));
+    pros::lcd::set_text(5, to_string(FRD.get_raw_position(&now)));
+    pros::lcd::set_text(6, to_string(MRD.get_raw_position(&now)));
+    pros::lcd::set_text(7, to_string(BRD.get_raw_position(&now)));
+
     /*
     if (master.get_analog(ANALOG_LEFT_Y) == 0 && master.get_analog(ANALOG_RIGHT_Y) == 0 && FLD.get_actual_velocity() == 0 && FRD.get_actual_velocity() == 0 && !holding) {
         leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
@@ -81,19 +91,45 @@ void testMoveDrive() {
     chassis->turnAngle(-90_deg);
     chassis->moveDistance(3_ft);
     chassis->turnAngle(90_deg);
-    flipIntake();
+    flipIntake(1);
     chassis->moveDistance(2.85_ft);
     pros::delay(250);
     chassis->setMaxVelocity(200);
     chassis->turnAngle(90_deg);
     chassis->setMaxVelocity(400);
     chassis->moveDistance(1.8_ft);
-    flipIntake();
+    flipIntake(-1);
 }
 void testTwo(){
-    // other auton
+    chassis->setMaxVelocity(300);
+    chassis->moveDistance(3.45_ft);
+    chassis->turnAngle(90_deg);
+
+    leftDrive.move_velocity(400);
+    rightDrive.move_velocity(400);
+    pros::delay(500);
+    leftDrive.move_velocity(0);
+    rightDrive.move_velocity(0);
+    pros::delay(250);
+    //chassis->setMaxVelocity(500);
+    //chassis->moveDistance(7_in);
+    chassis->setMaxVelocity(300);
+    chassis->moveDistance(-1.7_ft);
+    chassis->turnAngle(-90_deg);
+    flipIntake(1);
+    chassis->moveDistance(8_in);
+    chassis->turnAngle(90_deg);
+    chassis->moveDistance(1.85_ft);
+    chassis->moveDistance(-5_in);
+    chassis->turnAngle(-180_deg);
+    chassis->moveDistance(2.5_ft);
+    chassis->turnAngle(-180_deg);
+    leftDrive.move_velocity(600);
+    rightDrive.move_velocity(600);
 } 
 void testThree() {
     // skills
+    chassis->setMaxVelocity(300);
+    chassis->moveDistance(4_ft);
     run();
 }

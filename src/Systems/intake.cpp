@@ -4,14 +4,18 @@ pros::Motor intake(20, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROT
 
 int pressed = 0;
 bool going = false;
-void flipIntake(){
-    if (going){
+void flipIntake(int jawn){
+    if (jawn == 0){
         going = false;
         intake.move_voltage(0);
     }
-    else{
+    else if (jawn == 1){
         going = true;
         intake.move_voltage(12000);
+    }
+    else if (jawn == -1){
+        going = true;
+        intake.move_voltage(-12000);
     }
 }
 void intakeLoop(){

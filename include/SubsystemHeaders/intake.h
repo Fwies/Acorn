@@ -1,3 +1,3 @@
 
 void intakeLoop();
-void flipIntake();
+void flipIntake(int jawn);
