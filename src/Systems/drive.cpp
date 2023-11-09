@@ -5,8 +5,8 @@ using namespace std;
 using namespace std::chrono;
 using namespace okapi;
 pros::Motor FLD (17, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
-pros::Motor MLD (19, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
-pros::Motor SLD (13, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_ROTATIONS);
+pros::Motor MLD (19, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_ROTATIONS);
+pros::Motor SLD (13, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
 pros::Motor FRD (14, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_ROTATIONS);
 pros::Motor MRD (15, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_ROTATIONS);
 pros::Motor SRD (16, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
@@ -15,7 +15,7 @@ pros::Motor_Group leftDrive ({FLD, MLD, SLD});
 pros::Motor_Group rightDrive ({FRD, MRD, SRD});
 
 std::shared_ptr<ChassisController> chassis = ChassisControllerBuilder()
-	.withMotors({17, 19, -13}, {14, 15, -16})
+	.withMotors({17, -19, 13}, {14, 15, -16})
 	.withDimensions({okapi::AbstractMotor::gearset::blue * 1.6667}, {{3.25_in, 10.5_in},imev5BlueTPR})
     .withGains(
         {0.003, 0.0, 0.000}, // Distance controller gains p 0.003
