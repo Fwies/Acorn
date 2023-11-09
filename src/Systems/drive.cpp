@@ -6,20 +6,20 @@ using namespace std::chrono;
 using namespace okapi;
 pros::Motor FLD (17, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
 pros::Motor MLD (19, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
-pros::Motor BLD (13, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
+pros::Motor SLD (13, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_ROTATIONS);
 pros::Motor FRD (14, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_ROTATIONS);
 pros::Motor MRD (15, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_ROTATIONS);
-pros::Motor BRD (16, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_ROTATIONS);
+pros::Motor SRD (16, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
 
-pros::Motor_Group leftDrive ({FLD, MLD, BLD});
-pros::Motor_Group rightDrive ({FRD, MRD, BRD});
+pros::Motor_Group leftDrive ({FLD, MLD, SLD});
+pros::Motor_Group rightDrive ({FRD, MRD, SRD});
 
 std::shared_ptr<ChassisController> chassis = ChassisControllerBuilder()
-	.withMotors({17, 19, 13}, {14, 15, 16})
+	.withMotors({17, 19, -13}, {14, 15, -16})
 	.withDimensions({okapi::AbstractMotor::gearset::blue * 1.6667}, {{3.25_in, 10.5_in},imev5BlueTPR})
     .withGains(
         {0.003, 0.0, 0.000}, // Distance controller gains p 0.003
-        {0.003, 0.005, 0.00}  // Turn controller gains
+        {0.0025, 0.005, 0.000}  // Turn controller gains {0.003, 0.005, 0.0003}
         //{0.005, 0.000, 0.00}
     )
 	.build();
@@ -52,10 +52,10 @@ void driveLoop() {
     now = pros::millis();
     pros::lcd::set_text(2, to_string(FLD.get_raw_position(&now)));
     pros::lcd::set_text(3, to_string(MLD.get_raw_position(&now)));
-    pros::lcd::set_text(4, to_string(BLD.get_raw_position(&now)));
+    pros::lcd::set_text(4, to_string(SLD.get_raw_position(&now)));
     pros::lcd::set_text(5, to_string(FRD.get_raw_position(&now)));
     pros::lcd::set_text(6, to_string(MRD.get_raw_position(&now)));
-    pros::lcd::set_text(7, to_string(BRD.get_raw_position(&now)));
+    pros::lcd::set_text(7, to_string(SRD.get_raw_position(&now)));
 
     /*
     if (master.get_analog(ANALOG_LEFT_Y) == 0 && master.get_analog(ANALOG_RIGHT_Y) == 0 && FLD.get_actual_velocity() == 0 && FRD.get_actual_velocity() == 0 && !holding) {
@@ -79,26 +79,14 @@ void driveLoop() {
 
 }
 void testMoveDrive() {
-    chassis->setMaxVelocity(300);
-    //chassis->moveDistance(3_ft);
-    //flipIntake();
-    chassis->turnAngle(40_deg);
-    chassis->moveDistance(2.5_ft);
-    chassis->turnAngle(-40_deg);
-    chassis->moveDistance(7_in);
-    pros::delay(250);
-    chassis->moveDistance(-9_in);
-    chassis->turnAngle(-90_deg);
-    chassis->moveDistance(3_ft);
-    chassis->turnAngle(90_deg);
-    flipIntake(1);
-    chassis->moveDistance(2.85_ft);
-    pros::delay(250);
-    chassis->setMaxVelocity(200);
-    chassis->turnAngle(90_deg);
-    chassis->setMaxVelocity(400);
-    chassis->moveDistance(1.8_ft);
+    chassis->setMaxVelocity(300); 
     flipIntake(-1);
+    pros::delay(100);
+    chassis->turnAngle(-180_deg);
+    pros::delay(100);
+    chassis->moveDistance(-2.25_ft);
+    chassis->moveDistance(1_ft);
+
 }
 void testTwo(){
     chassis->setMaxVelocity(300);
@@ -124,12 +112,34 @@ void testTwo(){
     chassis->turnAngle(-180_deg);
     chassis->moveDistance(2.5_ft);
     chassis->turnAngle(-180_deg);
-    leftDrive.move_velocity(600);
-    rightDrive.move_velocity(600);
+    leftDrive.move_velocity(400);
+    rightDrive.move_velocity(400);
+    pros::delay(2000);
+    leftDrive.move_velocity(0);
+    rightDrive.move_velocity(0);
 } 
 void testThree() {
     // skills
-    chassis->setMaxVelocity(300);
-    chassis->moveDistance(4_ft);
     run();
 }
+
+/*chassis->setMaxVelocity(300);
+    //chassis->moveDistance(3_ft);
+    //flipIntake();
+    chassis->turnAngle(40_deg);
+    chassis->moveDistance(2.5_ft);
+    chassis->turnAngle(-40_deg);
+    chassis->moveDistance(7_in);
+    pros::delay(250);
+    chassis->moveDistance(-9_in);
+    chassis->turnAngle(-90_deg);
+    chassis->moveDistance(3_ft);
+    chassis->turnAngle(90_deg);
+    flipIntake(1);
+    chassis->moveDistance(2.85_ft);
+    pros::delay(250);
+    chassis->setMaxVelocity(200);
+    chassis->turnAngle(90_deg);
+    chassis->setMaxVelocity(400);
+    chassis->moveDistance(1.8_ft);
+    flipIntake(-1);*/

@@ -4,7 +4,7 @@ bool flying = false;
 void run(){
     if (flying == false) {
         flying = true; 
-        fly.move_velocity(-420);
+        fly.move_velocity(-530);
     }
     else {
         flying = false;
