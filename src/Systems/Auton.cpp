@@ -1,5 +1,61 @@
 #include "main.h"
 using namespace okapi;
+
+// forward/backward PID
+
+
+lemlib::Drivetrain_t drivetrain {
+    &leftDrive, // left drivetrain motors
+    &rightDrive, // right drivetrain motors
+    10, // track width
+    3.25, // wheel diameter
+    360 // wheel rpm
+};
+
+// left tracking wheel encod
+ 
+// left tracking wheel
+ 
+// inertial sensor
+pros::Imu inertial_sensor(8); // port 2
+
+// odometry struct
+lemlib::OdomSensors_t sensors {
+    nullptr, // vertical tracking wheel 1
+    nullptr, // vertical tracking wheel 2
+    nullptr, // horizontal tracking wheel 1
+    nullptr, // we don't have a second tracking wheel, so we set it to nullptr
+    &inertial_sensor // inertial sensor
+};
+ 
+// forward/backward PID
+lemlib::ChassisController_t lateralController {
+    1, // kP
+    0, // kD
+    1, // smallErrorRange
+    100, // smallErrorTimeout
+    3, // largeErrorRange
+    500, // largeErrorTimeout
+    5 // slew rate
+};
+
+// turning PID
+lemlib::ChassisController_t angularController {
+    4, // kP
+    40, // kD
+    1, // smallErrorRange
+    100, // smallErrorTimeout
+    3, // largeErrorRange
+    500, // largeErrorTimeout
+    40 // slew rate
+};
+ 
+
+// create the chassis
+
+lemlib::Chassis drive(drivetrain, lateralController, angularController, sensors);
+
+
 /*std::shared_ptr<ChassisController> chassis = ChassisControllerBuilder()
 	.withMotors({17,19, 13}, {14, 15, 16})
 	.withDimensions({okapi::AbstractMotor::gearset::blue*0.1}, {{3.25_in, 10.5_in},imev5BlueTPR})
@@ -31,13 +87,12 @@ using namespace okapi;
 );*/
 
 void autonInit(){
-	/*chassis.set_slew_min_power(80, 80);
-  	chassis.set_slew_distance(7, 7);
- 	chassis.set_pid_constants(&chassis.headingPID, 0, 0, 0, 0);
-  	chassis.set_pid_constants(&chassis.forward_drivePID, 1, 0, 0, 0);
-  	chassis.set_pid_constants(&chassis.backward_drivePID, 0.45, 0, 0, 0);
-  	chassis.set_pid_constants(&chassis.turnPID, 5, 0.00, 0, 0);
-  	chassis.set_pid_constants(&chassis.swingPID, 7, 0, 0, 0); */
+  inertial_sensor.set_roll(180);
+  drive.calibrate(); // calibrate the chassis
+  drive.setPose(0, 0, 0);
+	
 }
 void testMove() {
+  
+  drive.moveTo(0, 100, 1000, 50);
 }

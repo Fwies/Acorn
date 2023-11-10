@@ -40,6 +40,7 @@
 #include "SubsystemHeaders/Auton.h"
 #include "SubsystemHeaders/flyWheel.h"
 #include "SubsystemHeaders/intake.h"
+#include "lemlib/api.hpp"
 #include "okapi/api.hpp"
 
 /**
