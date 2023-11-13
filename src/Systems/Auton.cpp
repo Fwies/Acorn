@@ -7,7 +7,7 @@ using namespace okapi;
 lemlib::Drivetrain_t drivetrain {
     &leftDrive, // left drivetrain motors
     &rightDrive, // right drivetrain motors
-    10, // track width
+    10.25, // track width
     3.25, // wheel diameter
     360 // wheel rpm
 };
@@ -17,7 +17,7 @@ lemlib::Drivetrain_t drivetrain {
 // left tracking wheel
  
 // inertial sensor
-pros::Imu inertial_sensor(8); // port 2
+pros::Imu inertial_sensor(6); // port 2
 
 // odometry struct
 lemlib::OdomSensors_t sensors {
@@ -30,8 +30,8 @@ lemlib::OdomSensors_t sensors {
  
 // forward/backward PID
 lemlib::ChassisController_t lateralController {
-    1, // kP
-    0, // kD
+    3, // kP
+    1, // kD
     1, // smallErrorRange
     100, // smallErrorTimeout
     3, // largeErrorRange
@@ -41,8 +41,8 @@ lemlib::ChassisController_t lateralController {
 
 // turning PID
 lemlib::ChassisController_t angularController {
-    4, // kP
-    40, // kD
+    01, // kP
+    0, // kD
     1, // smallErrorRange
     100, // smallErrorTimeout
     3, // largeErrorRange
@@ -87,12 +87,13 @@ lemlib::Chassis drive(drivetrain, lateralController, angularController, sensors)
 );*/
 
 void autonInit(){
-  inertial_sensor.set_roll(180);
+  
   drive.calibrate(); // calibrate the chassis
+  //inertial_sensor.reset(true);
   drive.setPose(0, 0, 0);
 	
 }
 void testMove() {
   
-  drive.moveTo(0, 100, 1000, 50);
+  drive.turnTo(30, 0, 9999, 50);
 }
