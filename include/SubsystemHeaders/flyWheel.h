@@ -1,2 +1,2 @@
-void flyLoop();
+void flyLoop(bool go);
 void run();

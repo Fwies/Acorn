@@ -54,9 +54,9 @@ void competition_initialize() {}
 void autonomous() {
 
 
-	autonInit();
-	testMove();
-	pros::delay(99999);
+	//autonInit();
+	//testMove();
+	//pros::delay(99999);
 	//lock();
 	//pros::lcd::set_text(2, "I was pressed!");
 	if (potentiometer.get_angle()> 166){
@@ -92,8 +92,9 @@ void opcontrol() {
 
 		pros::lcd::set_text(1, to_string(potentiometer.get_angle()));
 		driveLoop();
-		flyLoop();
+		flyLoop(false);
 		intakeLoop();
+		wingLoop();
 		pros::delay(20);
 	}
 }

@@ -22,7 +22,7 @@ pros::Motor_Group getRight(){
 
 
 std::shared_ptr<ChassisController> chassis = ChassisControllerBuilder()
-	.withMotors({17, -19, 13}, {14, 15, -18})
+	.withMotors({17, 19, 13}, {14, 15, 18})
 	.withDimensions({okapi::AbstractMotor::gearset::blue * 1.6667}, {{3.25_in, 10.5_in},imev5BlueTPR})
     .withGains(
         {0.003, 0.0, 0.000}, // Distance controller gains p 0.003
@@ -97,7 +97,7 @@ void testMoveDrive() {
 }
 void testTwo(){
     chassis->setMaxVelocity(300);
-    chassis->moveDistance(3.45_ft);
+    chassis->moveDistance(3.35_ft);
     chassis->turnAngle(90_deg);
 
     leftDrive.move_velocity(400);
@@ -115,10 +115,11 @@ void testTwo(){
     chassis->moveDistance(8_in);
     chassis->turnAngle(90_deg);
     chassis->moveDistance(1.85_ft);
-    chassis->moveDistance(-5_in);
+    chassis->moveDistance(-12_in);
     chassis->turnAngle(-180_deg);
-    chassis->moveDistance(2.5_ft);
-    chassis->turnAngle(-180_deg);
+    chassis->moveDistance(2_ft);
+    chassis->moveDistance(-4_in);
+    chassis->turnAngle(-190_deg);
     leftDrive.move_velocity(400);
     rightDrive.move_velocity(400);
     pros::delay(2000);
@@ -126,8 +127,38 @@ void testTwo(){
     rightDrive.move_velocity(0);
 } 
 void testThree() {
+    leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+    rightDrive.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
     // skills
+    int i = 0;
+    while(i <= 2000){
+        flyLoop(true);
+        pros::delay(20);
+        i++;
+        if (i > 1500){
+            master.rumble(".");
+        }
+    }
     run();
+    chassis->setMaxVelocity(300);
+    //leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+    rightDrive.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+    rightDrive.move_relative(-260, 150);
+    pros::delay(750);
+    leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+    chassis->moveDistance(-6.25_ft);
+    rightDrive.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+    leftDrive.move_relative(-1175, 150);
+    pros::delay(2000);
+    rightDrive.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+    chassis->moveDistance(-4_ft);
+    chassis->turnAngle(135_deg);
+    chassis->moveDistance(-3_ft);
+    chassis->moveDistance(3_ft);
+    chassis->turnAngle(-90_deg);
+    chassis->moveDistance(-2_ft);
+    chassis->turnAngle(90_deg);
+    chassis->moveDistance(-3_ft);
 }
 
 /*chassis->setMaxVelocity(300);
