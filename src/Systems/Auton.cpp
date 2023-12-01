@@ -1,6 +1,6 @@
 #include "main.h"
 using namespace okapi;
-
+/*
 lemlib::Drivetrain_t drivetrain {
     &leftDrive, // left drivetrain motors
     &rightDrive, // right drivetrain motors
@@ -46,10 +46,10 @@ lemlib::ChassisController_t angularController {
  
 // create the chassis
 lemlib::Chassis drive(drivetrain, lateralController, angularController, sensors);
-
+*/
 void autonInit(){
 }
 void testMove() {
-  drive.calibrate();
-  drive.turnTo(30, 0, 99999,false, 30);
+  //drive.calibrate();
+  //drive.turnTo(30, 0, 99999,false, 30);
 }

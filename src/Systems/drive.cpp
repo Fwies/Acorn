@@ -21,7 +21,66 @@ pros::Motor_Group getRight(){
 }
 
 
-std::shared_ptr<ChassisController> chassis = ChassisControllerBuilder()
+
+
+
+lemlib::Drivetrain_t drivetrain {
+    &leftDrive, // left drivetrain motors
+    &rightDrive, // right drivetrain motors
+    10.25, // track width
+    3.25, // wheel diameter
+    360 // wheel rpm
+};
+ 
+// left tracking wheel encoder
+pros::Imu inertial_sensor(2); // port 2
+ 
+// odometry struct
+lemlib::OdomSensors_t sensors {
+    nullptr, // vertical tracking wheel 1
+    nullptr, // vertical tracking wheel 2
+    nullptr, // horizontal tracking wheel 1
+    nullptr, // we don't have a second tracking wheel, so we set it to nullptr
+    &inertial_sensor // inertial sensor
+};
+ 
+// forward/backward PID
+lemlib::ChassisController_t lateralController {
+    1, // kP11
+    0, // kD0
+    1, // smallErrorRange
+    100, // smallErrorTimeout
+    3, // largeErrorRange
+    500, // largeErrorTimeout
+    5 // slew rate
+};
+ 
+// turning PID
+lemlib::ChassisController_t angularController {
+    1, // kP
+    0, // kD
+    1, // smallErrorRange
+    100, // smallErrorTimeout
+    3, // largeErrorRange
+    500, // largeErrorTimeout
+    40 // slew rate
+};
+ 
+ 
+// create the chassis
+lemlib::Chassis drive(drivetrain, lateralController, angularController, sensors);
+
+
+void LEMtestMove() {
+  drive.calibrate();
+  drive.moveTo(0, 30, 99999, false, 127);
+}
+
+
+
+
+
+/*std::shared_ptr<ChassisController> chassis = ChassisControllerBuilder()
 	.withMotors({17, 19, 13}, {14, 15, 18})
 	.withDimensions({okapi::AbstractMotor::gearset::blue * 1.6667}, {{3.25_in, 10.5_in},imev5BlueTPR})
     .withGains(
@@ -29,7 +88,7 @@ std::shared_ptr<ChassisController> chassis = ChassisControllerBuilder()
         {0.0025, 0.005, 0.000}  // Turn controller gains {0.003, 0.005, 0.0003}
         //{0.005, 0.000, 0.00}
     )
-	.build();
+	.build();*/
 
 
 
@@ -86,17 +145,17 @@ void driveLoop() {
 
 }
 void testMoveDrive() {
-    chassis->setMaxVelocity(300); 
+    /*chassis->setMaxVelocity(300); 
     flipIntake(-1);
     pros::delay(100);
     chassis->turnAngle(-180_deg);
     pros::delay(100);
     chassis->moveDistance(-2.25_ft);
-    chassis->moveDistance(1_ft);
+    chassis->moveDistance(1_ft);*/
 
 }
 void testTwo(){
-    chassis->setMaxVelocity(300);
+    /*chassis->setMaxVelocity(300);
     chassis->moveDistance(3.35_ft);
     chassis->turnAngle(90_deg);
 
@@ -124,10 +183,10 @@ void testTwo(){
     rightDrive.move_velocity(400);
     pros::delay(2000);
     leftDrive.move_velocity(0);
-    rightDrive.move_velocity(0);
+    rightDrive.move_velocity(0);*/
 } 
 void testThree() {
-    leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+    /*leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
     rightDrive.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
     // skills
     int i = 0;
@@ -158,7 +217,7 @@ void testThree() {
     chassis->turnAngle(-90_deg);
     chassis->moveDistance(-2_ft);
     chassis->turnAngle(90_deg);
-    chassis->moveDistance(-3_ft);
+    chassis->moveDistance(-3_ft);*/
 }
 
 /*chassis->setMaxVelocity(300);
