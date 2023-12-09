@@ -57,9 +57,10 @@ void autonomous() {
 	//autonInit();
 	//testMove();
 	LEMtestMove();
-	pros::delay(99999);
+	//pros::delay(99999);
 	//lock();
 	//pros::lcd::set_text(2, "I was pressed!");
+	/*
 	if (potentiometer.get_angle()> 166){
 		testMoveDrive();
 	}
@@ -69,7 +70,7 @@ void autonomous() {
 	}
 	else {
 		testThree();
-	}
+	}*/
 }
 
 /**

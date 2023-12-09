@@ -33,7 +33,7 @@ lemlib::Drivetrain_t drivetrain {
 };
  
 // left tracking wheel encoder
-pros::Imu inertial_sensor(2); // port 2
+pros::Imu inertial_sensor(3); // port 2
  
 // odometry struct
 lemlib::OdomSensors_t sensors {
@@ -46,8 +46,8 @@ lemlib::OdomSensors_t sensors {
  
 // forward/backward PID
 lemlib::ChassisController_t lateralController {
-    1, // kP11
-    0, // kD0
+    11, // kP11
+    1, // kD0
     1, // smallErrorRange
     100, // smallErrorTimeout
     3, // largeErrorRange
@@ -58,7 +58,7 @@ lemlib::ChassisController_t lateralController {
 // turning PID
 lemlib::ChassisController_t angularController {
     1, // kP
-    0, // kD
+    1, // kD
     1, // smallErrorRange
     100, // smallErrorTimeout
     3, // largeErrorRange
@@ -73,7 +73,24 @@ lemlib::Chassis drive(drivetrain, lateralController, angularController, sensors)
 
 void LEMtestMove() {
   drive.calibrate();
-  drive.moveTo(0, 30, 99999, false, 127);
+  drive.moveTo(0, -15, 99999, 127);
+  drive.turnTo(12, 0, 900, false, 127);
+  drive.setPose(0,0,0);
+  drive.moveTo(0, -11, 99999, 50);
+  drive.moveTo(0, -5, 99999, 127);
+  drive.turnTo(5, -10, 900, false, 127);
+  ploy();
+  drive.setPose(0,0,0);
+  drive.moveTo(0, -12, 99999, 127);
+  drive.turnTo(-5, -14.5, 900, false, 127);
+  ploy();
+  drive.setPose(0,0,0);
+  drive.turnTo(10, 10, 900, false, 127);
+  drive.moveTo(-19,-19, 99999, 127);
+  drive.turnTo(-12, -0, 900, false, 127);
+  drive.setPose(0,0,0);
+  drive.moveTo(0, -18, 99999, 127);
+  drive.turnTo(6, -9, 900, false, 127);
 }
 
 

@@ -7,3 +7,7 @@ void wingLoop(){
         deployed = !deployed;
     }
 }
+void ploy(){
+    piston.set_value(deployed);
+    deployed = !deployed;
+}
