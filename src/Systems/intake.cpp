@@ -20,7 +20,7 @@ void flipIntake(int jawn){
 }
 void intakeLoop(){
 
-
+    
 
     if(master.get_digital_new_press(DIGITAL_R1)){
         if (pressed == 1) {

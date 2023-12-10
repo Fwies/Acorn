@@ -13,12 +13,7 @@ pros::Motor SRD (18, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTAT
 
 pros::Motor_Group leftDrive ({FLD, MLD, SLD});
 pros::Motor_Group rightDrive ({FRD, MRD, SRD});
-pros::Motor_Group getLeft(){
-    return {FLD, MLD, SLD};
-}
-pros::Motor_Group getRight(){
-    return {FRD, MRD, SRD};
-}
+
 
 
 
@@ -33,7 +28,7 @@ lemlib::Drivetrain_t drivetrain {
 };
  
 // left tracking wheel encoder
-pros::Imu inertial_sensor(3); // port 2
+pros::Imu inertial_sensor(2); // port 2
  
 // odometry struct
 lemlib::OdomSensors_t sensors {
@@ -47,7 +42,7 @@ lemlib::OdomSensors_t sensors {
 // forward/backward PID
 lemlib::ChassisController_t lateralController {
     11, // kP11
-    1, // kD0
+    1, // kD1
     1, // smallErrorRange
     100, // smallErrorTimeout
     3, // largeErrorRange
@@ -63,7 +58,7 @@ lemlib::ChassisController_t angularController {
     100, // smallErrorTimeout
     3, // largeErrorRange
     500, // largeErrorTimeout
-    40 // slew rate
+    0 // slew rate
 };
  
  
@@ -73,6 +68,8 @@ lemlib::Chassis drive(drivetrain, lateralController, angularController, sensors)
 
 void LEMtestMove() {
   drive.calibrate();
+    //drive.turnTo(12, 0, 99999, false, 127);
+
   drive.moveTo(0, -15, 99999, 127);
   drive.turnTo(12, 0, 900, false, 127);
   drive.setPose(0,0,0);
@@ -91,6 +88,26 @@ void LEMtestMove() {
   drive.setPose(0,0,0);
   drive.moveTo(0, -18, 99999, 127);
   drive.turnTo(6, -9, 900, false, 127);
+}
+void LEMtwo(){
+    drive.calibrate();
+    //drive.turnTo(12, 0, 99999, false, 127);
+    flipIntake(1);
+    drive.moveTo(0, 41.5, 99999, 127);
+    drive.turnTo(12, 44, 900, false, 127);
+    flipIntake(0);
+    drive.setPose(0, 0, 0);
+    drive.moveTo(0, 15, 1000, 127);
+    drive.setPose(0, 0, 0);
+    drive.moveTo(0, -23, 99999, 127);
+    drive.turnTo(-12, -23, 900, false, 127);
+    flipIntake(1);
+    drive.moveTo(-11, -23, 99999, 127);
+    drive.turnTo(-11, 0, 900, false, 50);
+    flipIntake(0);
+    drive.moveTo(-11, 3, 1000, 127);
+    pros::delay(300);
+
 }
 
 
@@ -120,8 +137,8 @@ int cubeCurve(int in) {
 bool holding = false;
 void lock() {
     if (holding == false){
-        leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_BRAKE);
-        rightDrive.set_brake_modes(pros::E_MOTOR_BRAKE_BRAKE);
+        leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+        rightDrive.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
         holding = true;
     }
     else {
@@ -154,7 +171,7 @@ void driveLoop() {
         master.rumble(".");
     }
     */
-    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
         lock();
     }
     leftDrive.move_velocity(4.72440944882 * master.get_analog(ANALOG_LEFT_Y));

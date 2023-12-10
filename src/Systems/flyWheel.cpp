@@ -11,6 +11,7 @@ void run(){
         fly.move_voltage(0); 
     }
 }
+bool ticked = false;
 void flyLoop(bool go){
     pros::lcd::set_text(0, to_string(fly.get_voltage()));
     if (go){
@@ -19,18 +20,20 @@ void flyLoop(bool go){
     if (flying){
         fly.move_velocity(570);
     }
-    else{
-        fly.move_velocity(0);
-    }
-    if(master.get_digital_new_press(DIGITAL_L1)){
+
+    if(master.get_digital_new_press(DIGITAL_L1) && ticked){
         if (flying){
             flying = false;
-            //fly.move_voltage(0); 
+            fly.move_voltage(0); 
         }
         else{
             flying = true;
             
             //fly.move_velocity(-530);
         }
+    }
+    if(master.get_digital_new_press(DIGITAL_Y) && !ticked){
+        ticked = true;
+        fly.move_relative(-0.5, 50);
     }
 }

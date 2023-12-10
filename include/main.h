@@ -43,7 +43,7 @@
 #include "SubsystemHeaders/Wings.h"
 #include "lemlib/api.hpp"
 #include "okapi/api.hpp"
-
+#include "gif-pros/gifclass.hpp"
 /**
  * You should add more #includes here
  */
