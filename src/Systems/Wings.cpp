@@ -7,6 +7,9 @@ void wingLoop(){
         deployed = !deployed;
     }
 }
+bool ployed(){
+    return deployed;
+}
 void ploy(){
     piston.set_value(deployed);
     deployed = !deployed;

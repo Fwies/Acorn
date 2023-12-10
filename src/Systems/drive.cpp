@@ -102,15 +102,32 @@ void LEMtwo(){
     drive.moveTo(0, -23, 99999, 127);
     drive.turnTo(-12, -23, 900, false, 127);
     flipIntake(1);
-    drive.moveTo(-11, -23, 99999, 127);
-    drive.turnTo(-11, 0, 900, false, 50);
+    drive.moveTo(-13, -23, 99999, 127);
+    drive.turnTo(-13, 0, 900, false, 50);
     flipIntake(0);
-    drive.moveTo(-11, 3, 1000, 127);
+    drive.moveTo(-13, 3, 1000, 127);
     pros::delay(300);
+    drive.setPose(0, 0, 0);
+    drive.moveTo(0, -5, 99999, 127);
+    drive.turnTo(-0.7, -10, 900, false, 127);
+    flipIntake(1);
+    drive.moveTo(-0.7, -31, 99999, 200);
+    drive.setPose(0, 0, 0);
+    drive.turnTo(1, -33, 900, false, 127);
+    drive.moveTo(1, -33, 2000, 200);
+    flipIntake(0);
+    drive.setPose(0, 0, 0);
+    drive.moveTo(0, -7, 99999, 200);
+    drive.turnTo(7, -14, 900, false, 127);
 
 }
 
+void LEMthree(){
+    drive.calibrate();
+    //leftDrive.set_brake_mode
+    //rightDrive.move_relative(-20, 100);
 
+}
 
 
 
@@ -140,11 +157,13 @@ void lock() {
         leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
         rightDrive.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
         holding = true;
+        master.rumble(".");
     }
     else {
         leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
         rightDrive.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
         holding = false;
+        master.rumble("-");
     }
 }
 std::uint32_t now = pros::millis();
@@ -176,6 +195,24 @@ void driveLoop() {
     }
     leftDrive.move_velocity(4.72440944882 * master.get_analog(ANALOG_LEFT_Y));
     rightDrive.move_velocity(4.72440944882 * master.get_analog(ANALOG_RIGHT_Y));
+    if (master.get_analog(ANALOG_LEFT_X)<-100 && master.get_analog(ANALOG_RIGHT_X)> 100){
+        if(ployed()){
+            ploy();
+        }
+        if (!holding){
+            lock();
+        }
+        leftDrive.move_velocity(0);
+        rightDrive.move_velocity(0);
+        tick();
+        spin();
+        while(master.get_analog(ANALOG_LEFT_X)<-100 && master.get_analog(ANALOG_RIGHT_X)> 100){
+            pros::delay(20);
+        }
+        run();
+        lock();
+        ploy();
+    }
 
 }
 void testMoveDrive() {

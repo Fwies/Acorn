@@ -65,7 +65,8 @@ void autonomous() {
 	//pros::delay(99999);
 	//lock();
 	//pros::lcd::set_text(2, "I was pressed!");
-	
+	LEMthree();
+	pros::delay(99999);
 	if (potentiometer.get_angle()> 166){
 		LEMtestMove();
 	}
