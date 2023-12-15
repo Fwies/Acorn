@@ -89,43 +89,120 @@ void LEMtestMove() {
   drive.moveTo(0, -18, 99999, 127);
   drive.turnTo(6, -9, 900, false, 127);
 }
-void LEMtwo(){
+void LEMINGTON(){
     drive.calibrate();
     //drive.turnTo(12, 0, 99999, false, 127);
     flipIntake(1);
-    drive.moveTo(0, 41.5, 99999, 127);
-    drive.turnTo(12, 44, 900, false, 127);
+    drive.moveTo(0, 41.5, 99999, 200);
+    drive.turnTo(12, 44, 500, false, 127);
     flipIntake(0);
     drive.setPose(0, 0, 0);
     drive.moveTo(0, 15, 1000, 127);
     drive.setPose(0, 0, 0);
     drive.moveTo(0, -23, 99999, 127);
-    drive.turnTo(-12, -23, 900, false, 127);
+    drive.turnTo(-12, -23, 500, false, 127);
     flipIntake(1);
     drive.moveTo(-13, -23, 99999, 127);
-    drive.turnTo(-13, 0, 900, false, 50);
+    drive.turnTo(-13, 1, 500, false, 50);
+    pros::delay(200);
+    flipIntake(-1);
+    pros::delay(500);
+    drive.setPose(0, 0, 0);
+    drive.turnTo(2, -14, 700, false, 127);
+    flipIntake(1);
+    drive.moveTo(2, -14, 99999, 127);
+    drive.moveTo(2, -5, 99999, 127);
+    drive.turnTo(2, 10, 700, false, 75);
+    pros::delay(200);
+    flipIntake(-1);
+    pros::delay(500);
+    drive.setPose(0,0,0);
+    drive.turnTo(10, 3, 700, false, 127);
+    drive.setPose(0,0,0);
+    drive.moveTo(0, 27, 99999, 127);
+    drive.turnTo(40, 28, 700, false, 127);
+    flipIntake(1);
+    drive.setPose(0,0,0);
+    drive.moveTo(0, 5, 500, 127);
+    drive.moveTo(0, 0, 99999, 127);
+
+
+    
+}
+void LEMtwo(){
+    drive.calibrate();
+    //drive.turnTo(12, 0, 99999, false, 127);
+    flipIntake(1);
+    drive.moveTo(0, 41.5, 99999, 200);
+    drive.turnTo(12, 44, 500, false, 127);
+    flipIntake(0);
+    drive.setPose(0, 0, 0);
+    drive.moveTo(0, 15, 1000, 127);
+    drive.setPose(0, 0, 0);
+    drive.moveTo(0, -23, 99999, 127);
+    drive.turnTo(-12, -23, 500, false, 127);
+    flipIntake(1);
+    drive.moveTo(-13, -23, 99999, 127);
+    drive.turnTo(-13, 0, 500, false, 50);
     flipIntake(0);
     drive.moveTo(-13, 3, 1000, 127);
     pros::delay(300);
     drive.setPose(0, 0, 0);
     drive.moveTo(0, -5, 99999, 127);
-    drive.turnTo(-0.7, -10, 900, false, 127);
+    drive.turnTo(-0.7, -10, 700, false, 127);
     flipIntake(1);
     drive.moveTo(-0.7, -31, 99999, 200);
     drive.setPose(0, 0, 0);
-    drive.turnTo(1, -33, 900, false, 127);
-    drive.moveTo(1, -33, 2000, 200);
+    drive.turnTo(1, -33, 500, false, 127);
+    drive.moveTo(1, -33, 750, 200);
     flipIntake(0);
     drive.setPose(0, 0, 0);
     drive.moveTo(0, -7, 99999, 200);
-    drive.turnTo(7, -14, 900, false, 127);
+    drive.turnTo(7, -14, 500, false, 127);
 
 }
 
 void LEMthree(){
+    leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+    rightDrive.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+    shnawg();
+    pros::delay(40000);
+    unShnawg();
+    leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+    rightDrive.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+    
+    
     drive.calibrate();
-    //leftDrive.set_brake_mode
-    //rightDrive.move_relative(-20, 100);
+    leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+    rightDrive.move_relative(-0.9, 150);
+    pros::delay(1000);
+    drive.setPose(0,0,0);
+    leftDrive.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+    drive.moveTo(0, -83, 99999, 100);
+    drive.setPose(0,0,0);
+    drive.turnTo(-10, -6, 1200, false, 127);
+    drive.setPose(0,0,0);
+    drive.moveTo(0,-43,99999, 100);
+    drive.turnTo(3, -40, 1200, false, 127);
+
+    drive.setPose(0,0,0);
+    drive.moveTo(0,-20,99999, 100);
+    drive.turnTo(10, -18, 1000, false, 127);
+    ploy();
+    drive.setPose(0,0,0);
+    drive.moveTo(0,-25,2000, 100);
+
+    drive.moveTo(0,0,99999, 100);
+
+    ploy();
+
+    drive.turnTo(10, 0, 1000, false, 127);
+    drive.moveTo(4, 0, 2000, 100);
+    drive.turnTo(4, 4, 1000, false, 127);
+    ploy();
+    drive.moveTo(4, -25, 2000, 100);
+    drive.moveTo(4, -10, 2000, 100);
+    ploy();
 
 }
 
@@ -206,7 +283,7 @@ void driveLoop() {
         rightDrive.move_velocity(0);
         tick();
         spin();
-        while(master.get_analog(ANALOG_LEFT_X)<-100 && master.get_analog(ANALOG_RIGHT_X)> 100){
+        while (master.get_analog(ANALOG_LEFT_X)<-100 && master.get_analog(ANALOG_RIGHT_X)> 100){
             pros::delay(20);
         }
         run();

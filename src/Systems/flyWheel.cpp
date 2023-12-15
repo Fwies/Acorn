@@ -11,6 +11,12 @@ void run(){
         fly.move_voltage(0); 
     }
 }
+void shnawg(){
+    fly.move_velocity(-570);
+}
+void unShnawg(){
+    fly.move_velocity(0);
+}
 void spin(){
     fly.move_velocity(570);
     flying = true;

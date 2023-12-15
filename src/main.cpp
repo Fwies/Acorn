@@ -23,7 +23,7 @@ void initialize() {
 	lv_obj_set_style(obj, &lv_style_transp); // make the container invisible
 	lv_obj_align(obj, NULL, LV_ALIGN_CENTER, 0, 0);
 
-	static Gif gif("/usd/grinch.gif", lv_scr_act());
+	//static Gif gif("/usd/grinch.gif", lv_scr_act());
 	//pros::lcd::set_text(1, "Acorn");
 	master.rumble(".");
 }
@@ -65,18 +65,20 @@ void autonomous() {
 	//pros::delay(99999);
 	//lock();
 	//pros::lcd::set_text(2, "I was pressed!");
-	LEMthree();
-	pros::delay(99999);
+	
+	
 	if (potentiometer.get_angle()> 166){
 		LEMtestMove();
 	}
 	else if (potentiometer.get_angle() > 83) {
 		pros::lcd::set_text(2, "op 2");
+		//LEMINGTON();
+		//pros::delay(99999);
 		LEMtwo();
 	}
-	/*else {
-		testThree();
-	}*/
+	else {
+		LEMthree();
+	}
 }
 
 /**
