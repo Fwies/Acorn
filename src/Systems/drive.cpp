@@ -6,10 +6,10 @@ using namespace std::chrono;
 using namespace okapi;
 pros::Motor FLD (17, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
 pros::Motor MLD (19, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
-pros::Motor SLD (13, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_ROTATIONS);
+pros::Motor SLD (13, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
 pros::Motor FRD (14, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_ROTATIONS);
 pros::Motor MRD (15, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_ROTATIONS);
-pros::Motor SRD (18, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
+pros::Motor SRD (18, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_ROTATIONS);
 
 pros::Motor_Group leftDrive ({FLD, MLD, SLD});
 pros::Motor_Group rightDrive ({FRD, MRD, SRD});
@@ -73,7 +73,7 @@ void LEMtestMove() {
   drive.moveTo(0, -15, 99999, 127);
   drive.turnTo(12, 0, 900, false, 127);
   drive.setPose(0,0,0);
-  drive.moveTo(0, -11, 99999, 50);
+  drive.moveTo(0, -11, 99999, 80);
   drive.moveTo(0, -5, 99999, 127);
   drive.turnTo(5, -10, 900, false, 127);
   ploy();
@@ -82,12 +82,13 @@ void LEMtestMove() {
   drive.turnTo(-5, -14.5, 900, false, 127);
   ploy();
   drive.setPose(0,0,0);
-  drive.turnTo(10, 10, 900, false, 127);
-  drive.moveTo(-19,-19, 99999, 127);
-  drive.turnTo(-12, -0, 900, false, 127);
+  drive.turnTo(14, 10, 900, false, 127);
   drive.setPose(0,0,0);
-  drive.moveTo(0, -18, 99999, 127);
-  drive.turnTo(6, -9, 900, false, 127);
+  drive.moveTo(0, -12, 99999, 127);
+  drive.turnTo(-1.5, -12, 900, false, 127);
+  drive.setPose(0,0,0);
+  drive.moveTo(0, -35, 99999, 100);
+  drive.turnTo(7, -17, 900, false, 127);
 }
 void LEMINGTON(){
     drive.calibrate();

@@ -12,7 +12,7 @@ void run(){
     }
 }
 void shnawg(){
-    fly.move_velocity(-570);
+    fly.move_velocity(-515);
 }
 void unShnawg(){
     fly.move_velocity(0);
