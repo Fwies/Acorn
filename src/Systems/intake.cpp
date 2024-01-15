@@ -1,6 +1,6 @@
 #include "main.h"
 
-pros::Motor intake(20, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
+pros::Motor intake(2, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_ROTATIONS);
 
 int pressed = 0;
 bool going = false;
